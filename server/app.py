@@ -31,8 +31,30 @@ class Signup(Resource):
             return {'error': 'Invalid username or password'}, 422
     
         # return {'error': 'Invalid username or password'}, 401
+class Login(Resource):
+    def post(self):
+        
+        username = request.get_json()['username']
+        user = User.query.filter(User.username == username).first()
+        password = request.get_json()['password']
 
 
+        # users pwd is set by calling user.pawd = "new_pwd"
+        # instead of pwd = user.pwd , here we authenticate by using bcrypt checking pwd = stored pwd hash
+        if user.authenticate(password):
+        
+            session['user_id'] = user.id
+            return user.to_dict(), 200
+
+        return {}, 401
+ 
+
+class Logout(Resource):
+    def delete(self):
+
+        session['user_id'] = None
+        
+        return {}, 204
 
 #RESTful route syntax
 class Users(Resource):
@@ -40,6 +62,14 @@ class Users(Resource):
         users = [user.to_dict() for user in User.query.all()] #Serialize users - password hashes shouldnot be sent to client  
         return users, 200
 api.add_resource(Users, '/users')
+
+
+api.add_resource(Signup, '/signup', endpoint='signup')
+api.add_resource(Login, '/login', endpoint='login')
+api.add_resource(Logout, '/logout', endpoint='logout')
+
+
+
 
 
 

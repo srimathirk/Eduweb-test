@@ -23,6 +23,6 @@ with app.app_context():
             username=username
         )
 
-        user.password_hash = username #We calling password_hash setter method here
+        user.password_hash = user.username + 'password' #We calling password_hash setter method here
         db.session.add(user)
         db.session.commit()
