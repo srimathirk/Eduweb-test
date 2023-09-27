@@ -1,6 +1,6 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import { Switch, Route } from "react-router-dom";
-import './App.css';
+import "./App.css";
 import SignUp from "./SignUp";
 import Login from "./Login";
 import NavBar from "./NavBar";
@@ -16,7 +16,7 @@ function App() {
         {user ? (
           <Switch>
             <Route path="/">
-              <Home user={user}/>
+              <Home user={user} />
             </Route>
           </Switch>
         ) : (
