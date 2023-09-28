@@ -7,9 +7,28 @@ function SignUp({ setUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [error, setError] = useState(""); //displays error if password didnt match
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    // Check if passwords match
+    if (password !== passwordConfirmation) {
+      setError("Passwords do not match");
+      // go back to "/" page if password do not match
+      // history.push("/") 
+
+      // Reset form fields
+      setUsername("");
+      setPassword("");
+      setPasswordConfirmation("");
+
+      return;
+    }
+
+    // Reset error state if passwords match
+    setError("");
+
     fetch("/signup", {
       method: "POST",
       headers: {
@@ -56,6 +75,8 @@ function SignUp({ setUser }) {
           onChange={(e) => setPasswordConfirmation(e.target.value)}
           autoComplete="current-password"
         />
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
         <button type="submit">Sign Up</button>
       </form>
     </div>

@@ -16,6 +16,8 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String, unique=True)
     _password_hash = db.Column(db.String)
     
+    serialize_rules = ('-_password_hash','-books')
+
     books = db.relationship('Book', secondary= user_books)
 
     @hybrid_property #Restrict access to password hash

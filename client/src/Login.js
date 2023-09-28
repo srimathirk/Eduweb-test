@@ -5,9 +5,12 @@ function Login({ setUser }) {
   let history = useHistory();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(""); // error message if password is not correct
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    //making request to server to validate login
     fetch("/login", {
       method: "POST",
       headers: {
@@ -17,8 +20,14 @@ function Login({ setUser }) {
     }).then((r) => {
       if (r.ok) {
         r.json().then((user) => setUser(user));
+        history.push("/"); //after successfull login going back to login home page
+      } else {
+        setError("Username or password is incorrect");
+
+        // Reset form fields
+        setUsername("");
+        setPassword("");
       }
-      history.push("/");
     });
     // console.log(username);
     // console.log(password)
@@ -44,9 +53,10 @@ function Login({ setUser }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
         <button type="submit">Login</button>
       </form>
-      
     </div>
   );
 }

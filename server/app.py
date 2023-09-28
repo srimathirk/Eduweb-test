@@ -38,7 +38,7 @@ class Login(Resource):
         user = User.query.filter(User.username == username).first()
         password = request.get_json()['password']
 
-
+        # if user:
         # users pwd is set by calling user.pawd = "new_pwd"
         # instead of pwd = user.pwd , here we authenticate by using bcrypt checking pwd = stored pwd hash
         if user.authenticate(password):
@@ -46,8 +46,9 @@ class Login(Resource):
             session['user_id'] = user.id
             return user.to_dict(), 200
 
-        return {}, 401
- 
+        return {"errors": ["Username or password incorrect"]},401   
+        # else:
+        #     return {"errors": ["Username or password incorrect"]},401    
 
 class Logout(Resource):
     def delete(self):
@@ -69,10 +70,14 @@ api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 
 
+# class Books(Resource):
+#     def get(self ):
+#         # if session["user_id"]:
+            
+#         books = [book.to_dict() for book in Book.query.all()]
+#         return make_response(jsonify(books), 200,)
 
 
-
-
-
+# api.add_resource(Books, '/books')
 if __name__ == '__main__':
     app.run(port=5000,debug=True)
