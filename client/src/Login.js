@@ -19,8 +19,14 @@ function Login({ setUser }) {
       body: JSON.stringify({ username, password }),
     }).then((r) => {
       if (r.ok) {
-        r.json().then((user) => setUser(user));
-        history.push("/"); //after successfull login going back to login home page
+        r.json().then((user) => { 
+          
+        // // Assuming user.token is where your token is located in the response
+        // const token = user.token;
+        // localStorage.setItem('token', token); // Save token to localStorage
+
+          setUser(user)});
+        // history.push("/"); //after successfull login going back to login home page
       } else {
         setError("Username or password is incorrect");
 
@@ -29,8 +35,8 @@ function Login({ setUser }) {
         setPassword("");
       }
     });
-    // console.log(username);
-    // console.log(password)
+    //  console.log(username);
+    //  console.log(password)
   }
 
   return (
