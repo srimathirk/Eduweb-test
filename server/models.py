@@ -20,6 +20,14 @@ class User(db.Model, SerializerMixin):
 
     books = db.relationship('Book', secondary= user_books)
 
+    # def to_dict(self):
+    #     return {
+    #         'id': self.id,
+    #         'username': self.username,
+    #         # 'email': self.email,
+    #         # Exclude password_hash from the dictionary
+    #     }
+
     @hybrid_property #Restrict access to password hash
     def password_hash(self):
         raise Exception("Password hashes may not be viewed.")
@@ -47,6 +55,7 @@ class Book(db.Model, SerializerMixin):
     reviews = db.relationship('Review', backref='books')
     ratings = db.relationship('Rating', backref='books')
   
+    serialize_rules = ('-user_books','-ratings','-reviews')
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
