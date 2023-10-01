@@ -6,15 +6,17 @@ import Logic from './Logic';
 
 
 function Home({ user }) {
+  console.log(user)
   if (user){
   return (
     <div>
       <h1>Welcome to the Home {user.username}!</h1>
+
       <nav>
         <ul>
-          <li>
+          {user && <li>
             <Link to="/books">Books</Link>
-          </li>
+          </li>}
           <li>
             <Link to="/math">Math</Link>
           </li>

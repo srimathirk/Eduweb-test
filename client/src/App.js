@@ -8,7 +8,6 @@ import Books from "./Books";
 import Math from "./Math";
 import Logic from "./Logic";
 
-
 function App() {
   const [user, setUser] = useState(null);
 
@@ -22,9 +21,10 @@ function App() {
       .then((text) => {
         console.log("Response Text:", text);
         // Now try to parse it as JSON if it's not empty
-        if (text.trim() !== '') {
+        if (text.trim() !== "") {
           const user = JSON.parse(text); //converting text to JSON
           setUser(user);
+          console.log(user);
         }
       });
   }, []);
@@ -36,7 +36,16 @@ function App() {
         {user ? (
           <Switch>
             <Route path="/">
-              <Home user={user}/>
+              <Home user={user} />
+            </Route>
+            <Route path="/books">
+              <Books user={user}/>
+            </Route>
+            <Route path="/math">
+              <Math user={user}/>
+            </Route>
+            <Route path="/logic">
+              <Logic />
             </Route>
           </Switch>
         ) : (
@@ -47,18 +56,10 @@ function App() {
             <Route path="/login">
               <Login setUser={setUser} />
             </Route>
-            <Route path="/books">
-                <Books />
-              </Route>
-              <Route path="/math">
-                <Math />
-              </Route>
-              <Route path="/logic">
-                <Logic />
-              </Route>
-              <Route path="/">
+            <Route path="/">
               <Home />
             </Route>
+            
           </Switch>
         )}
       </main>
