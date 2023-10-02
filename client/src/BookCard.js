@@ -18,7 +18,26 @@ function BookCard({ book, handleReviewSubmit, user }) {
       newWindow.opener = null;
     }
   };
+  function addingReviewRating(reviews, ratings) {
+    const data = [];
 
+    for (let i = 0; i < reviews.length; i++) {
+      for (let j = 0; j < ratings.length; j++) {
+        if (reviews[i].username === ratings[j].username) {
+          // console.log(reviews[i],ratings[j])
+          // console.log(reviews[i].content,ratings[j].value)
+          // console.log({review: reviews[i].content, rating: ratings[j].value , username: reviews[i].username})
+          data.push({
+            review: reviews[i].content,
+            rating: ratings[j].value,
+            username: reviews[i].username,
+          });
+        }
+      }
+    }
+
+    return data;
+  }
   return (
     <div className="grid-wrapper">
       <div className="image" onClick={openPdfInNewTab}>
@@ -38,18 +57,29 @@ function BookCard({ book, handleReviewSubmit, user }) {
           <ul>
             {book.reviews.map((review, index) => (
               <li key={index}>
-                Reviews: {review.username}: {review.content}
+                User({review.username})- Review: {review.content}
               </li>
             ))}
           </ul>
           <ul>
             {book.ratings.map((rating, index) => (
               <li key={index}>
-                Ratings: {rating.username}: {rating.value}
+                User({rating.username})- Ratings: {rating.value}
               </li>
             ))}
           </ul>
-
+          <ul>
+            {addingReviewRating(book.reviews, book.ratings).map(
+              (data, index) => {
+                // console.log(data);
+                return (
+                  <li key={index}>
+                    rating:{data.rating} review:{data.review} username:{data.username}
+                  </li>
+                );
+              }
+            )}
+          </ul>
           <button onClick={() => handleReviewSubmit(book.id)}>
             Add Review
           </button>
