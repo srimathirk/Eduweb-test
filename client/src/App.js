@@ -12,6 +12,7 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    console.log("Chcking session works");
     fetch("/check_session")
       .then((r) => {
         if (r.ok) {
@@ -28,7 +29,7 @@ function App() {
         }
       });
   }, []);
-  
+  console.log(user)
   return (
     <>
       <NavBar user={user} setUser={setUser} />
@@ -57,7 +58,7 @@ function App() {
               <Login setUser={setUser} />
             </Route>
             <Route path="/">
-              <Home />
+              <Home user={user}/>
             </Route>
             
           </Switch>

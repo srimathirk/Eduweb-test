@@ -14,8 +14,9 @@ function Books({user}) {
     
       });
   }, []);
-
+  
   console.log(user)
+  
   function handleReviewSubmit(bookId) {
     
     fetch('/add_review', {

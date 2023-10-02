@@ -26,7 +26,7 @@ function Home({ user }) {
         </ul>
       </nav>
       <Switch>
-        <Route path="/books" component={Books} />
+        <Route path="/books"> <Books user={user}/></Route> 
         <Route path="/math" component={Math} />
         <Route path="/logic" component={Logic} />
       </Switch>

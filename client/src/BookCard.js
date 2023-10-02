@@ -3,7 +3,7 @@ import { useState } from "react";
 
 function BookCard({ book, handleReviewSubmit, user }) {
   const { Image, Title, Author, pdf } = book;
-
+  // console.log(book)
   const [content, setContent] = useState("");
 
   const handleSubmit = (e) => {
@@ -42,6 +42,14 @@ function BookCard({ book, handleReviewSubmit, user }) {
               </li>
             ))}
           </ul>
+          <ul>
+            {book.ratings.map((rating, index) => (
+              <li key={index}>
+                Ratings: {rating.username}: {rating.value}
+              </li>
+            ))}
+          </ul>
+
           <button onClick={() => handleReviewSubmit(book.id)}>
             Add Review
           </button>

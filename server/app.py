@@ -95,26 +95,32 @@ class Users(Resource):
 # api.add_resource(Books, '/books')
 
 def get_username_from_user_id(user_id):
-    user = User.query.get(user_id)
+    user = db.session.query(User).filter_by(id=user_id).first()
+    print(user)
     return user.username if user else None
 
 
 class Books(Resource):
     def get(self ):
-        # if session["user_id"]:
+        print(f"session is {session}")
+        print(f"user_id in session : {session.get('user_id')}")
+        print(f"session userid: {session['user_id']}")
+        print(f"{User}")
         if session['user_id']:
             books = Book.query.all()
             books_data = []
 
             for book in books:
                 reviews_data = [{'content': review.content,  'username': get_username_from_user_id(review.user_id)} for review in book.reviews]
+                ratings_data = [{'value': rating.value,  'username': get_username_from_user_id(rating.user_id)} for rating in book.ratings]
                 books_data.append({
                     'id': book.id,
                     'Author': book.Author,
                     'Title': book.Title,
                     'Image': book.Image,
                     'pdf': book.pdf,
-                    'reviews': reviews_data
+                    'reviews': reviews_data,
+                    'ratings': ratings_data
                 })
 
             return (books_data),200
@@ -136,6 +142,22 @@ class AddReview(Resource):
         return jsonify({'message': 'Review added successfully'}), 201
             
 
+class AddRating(Resource):
+    def post(self):
+        if 'user_id' not in session:
+            return {'message': 'Unauthorized'}, 401
+
+        user_id = session['user_id']
+        book_id = request.get_json()['book_id']
+        content = request.get_json()['value']
+
+         # Create a new review associated with the specified user
+        new_rating = Rating(user_id=user_id, book_id=book_id, value=value)
+        db.session.add(new_rating)
+        db.session.commit()
+
+        return jsonify({'message': 'Rating added successfully'}), 201
+     
 
 api.add_resource(ClearSession, '/clear', endpoint='clear')
 api.add_resource(Signup, '/signup', endpoint='signup')
@@ -145,6 +167,7 @@ api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Users, '/users')
 api.add_resource(Books, '/books')
 api.add_resource(AddReview,'/add_review')
+api.add_resource(AddRating,'/add_rating')
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
