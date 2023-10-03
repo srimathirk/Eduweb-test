@@ -1,17 +1,11 @@
 import React from "react";
 import { useState } from "react";
-
-function BookCard({ book, handleReviewSubmit, user }) {
+function BookCard({ book, user, onAddReviews, reviews }) {
   const { Image, Title, Author, pdf } = book;
-  // console.log(book)
+  console.log(book);
   const [content, setContent] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleReviewSubmit(book.id, content);
-    setContent(""); // Reset the content after submitting
-  };
-
+  console.log(reviews)
   const openPdfInNewTab = () => {
     const newWindow = window.open(pdf, "_blank");
     if (newWindow) {
@@ -35,9 +29,14 @@ function BookCard({ book, handleReviewSubmit, user }) {
         }
       }
     }
-
     return data;
   }
+
+  const handleReviewsSubmit = (e) => {
+    e.preventDefault();
+    onAddReviews(book.id, content);
+    setContent(""); // Reset content after submission
+  };
   return (
     <div className="grid-wrapper">
       <div className="image" onClick={openPdfInNewTab}>
@@ -74,24 +73,20 @@ function BookCard({ book, handleReviewSubmit, user }) {
                 // console.log(data);
                 return (
                   <li key={index}>
-                    rating:{data.rating} review:{data.review} username:{data.username}
+                    rating:{data.rating} review:{data.review} username:
+                    {data.username}
                   </li>
                 );
               }
             )}
           </ul>
-          <button onClick={() => handleReviewSubmit(book.id)}>
-            Add Review
-          </button>
-          <form onSubmit={handleSubmit}>
-            <label>
-              Review Content:
-              <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                required
-              />
-            </label>
+          <form onSubmit={handleReviewsSubmit}>
+            <input
+              type="text"
+              value={content}
+              onChange={(e) => setContent( e.target.value,)}
+              placeholder="Write your review..."
+            />
             <button type="submit">Submit Review</button>
           </form>
         </div>

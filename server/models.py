@@ -62,9 +62,28 @@ class Review(db.Model):
     content = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
+    serialize_rules = ('-user',)
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'book_id': self.book_id,
+            'content': self.content
+         
+        }
 class Rating(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     value = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
+    serialize_rules = ('-user',)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'book_id': self.book_id,
+            'value': self.value
+         
+        }
