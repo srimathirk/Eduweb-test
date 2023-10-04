@@ -106,8 +106,8 @@ def get_username_from_user_id(user_id):
 
 class Books(Resource):
     def get(self ):
-        if 'user_id' not in session:
-            return {'message': 'Unauthorized'}, 401
+        # if 'user_id' not in session:
+        #     return {'message': 'Unauthorized'}, 401
 
         # if session["user_id"]:
         books = Book.query.all()
@@ -130,8 +130,8 @@ class Books(Resource):
 
 class BookById(Resource):
     def get(self,book_id):
-        if 'user_id' not in session:
-            return {'message': 'Unauthorized'}, 401
+        # if 'user_id' not in session:
+        #     return {'message': 'Unauthorized'}, 401
 
         book = Book.query.filter(Book.id == book_id).first()
         reviews_data = [{'content': review.content, 'username': get_username_from_user_id(review.user_id)} for review in book.reviews]
@@ -152,8 +152,8 @@ class BookById(Resource):
            
 class Reviews(Resource):
     def get(self):
-        if 'user_id' not in session:
-            return {'message': 'Unauthorized'}, 401
+        # if 'user_id' not in session:
+        #     return {'message': 'Unauthorized'}, 401
 
         reviews = []
         for review in Review.query.all():
@@ -164,8 +164,8 @@ class Reviews(Resource):
 
 class BookReviews(Resource):
     def get(self, book_id):
-        if 'user_id' not in session:
-            return {'message': 'Unauthorized'}, 401
+        # if 'user_id' not in session:
+        #     return {'message': 'Unauthorized'}, 401
 
         book = Book.query.filter(Book.id == book_id).first()
         reviews_data = [{'content': review.content, 'username': get_username_from_user_id(review.user_id)} for review in book.reviews]
@@ -175,10 +175,11 @@ class BookReviews(Resource):
 
 class AddReview(Resource):
     def post(self, book_id):
-        if 'user_id' not in session:
-            return {'message': 'Unauthorized'}, 401
+        # if 'user_id' not in session:
+        #     return {'message': 'Unauthorized'}, 401
 
         user_id = session['user_id']
+        # user=User.query.filter(User.id == user_id).first()
         content = request.get_json()['content']
 
         # Find the book by its ID
@@ -194,7 +195,7 @@ class AddReview(Resource):
         # Convert the review object to a dictionary
         review_dict = {
             'id': review.id,
-            'user_id': review.user_id,
+            'username': get_username_from_user_id(review.user_id),
             'book_id': review.book_id,
             'content': review.content
             # Add more fields if necessary
@@ -204,8 +205,8 @@ class AddReview(Resource):
 
 class Ratings(Resource):
     def get(self):
-        if 'user_id' not in session:
-            return {'message': 'Unauthorized'}, 401
+        # if 'user_id' not in session:
+        #     return {'message': 'Unauthorized'}, 401
 
         ratings = []
         for rating in Rating.query.all():
@@ -216,8 +217,8 @@ class Ratings(Resource):
 
 class BookRatings(Resource):
     def get(self, book_id):
-        if 'user_id' not in session:
-            return {'message': 'Unauthorized'}, 401
+        # if 'user_id' not in session:
+        #     return {'message': 'Unauthorized'}, 401
 
         book = Book.query.filter(Book.id == book_id).first()
         ratings_data = [{'value': rating.value, 'username': get_username_from_user_id(rating.user_id)} for rating in book.ratings]
@@ -227,8 +228,8 @@ class BookRatings(Resource):
 class AddRating(Resource):
     def post(self,book_id):
         
-        if 'user_id' not in session:
-            return {'message': 'Unauthorized'}, 401
+        # if 'user_id' not in session:
+        #     return {'message': 'Unauthorized'}, 401
 
         user_id = session['user_id']
         value = request.get_json()['value']
@@ -244,7 +245,7 @@ class AddRating(Resource):
 
         rating_dict = {
             'id': rating.id,
-            'user_id': rating.user_id,
+            'username': get_username_from_user_id(rating.user_id),
             'book_id': rating.book_id,
             'value': rating.value
             # Add more fields if necessary
