@@ -1,11 +1,21 @@
 import React from "react";
 import { useState } from "react";
-function BookCard({ book, user, onAddReviews, reviews }) {
+function BookCard({
+  book,
+  user,
+  onAddReviews,
+  reviews,
+  ratings,
+  onAddRatings,
+}) {
   const { Image, Title, Author, pdf } = book;
   console.log(book);
   const [content, setContent] = useState("");
+  const [rating, setRating] = useState("");
 
-  console.log(reviews)
+  console.log(user);
+  console.log(reviews);
+  console.log(ratings);
   const openPdfInNewTab = () => {
     const newWindow = window.open(pdf, "_blank");
     if (newWindow) {
@@ -18,9 +28,6 @@ function BookCard({ book, user, onAddReviews, reviews }) {
     for (let i = 0; i < reviews.length; i++) {
       for (let j = 0; j < ratings.length; j++) {
         if (reviews[i].username === ratings[j].username) {
-          // console.log(reviews[i],ratings[j])
-          // console.log(reviews[i].content,ratings[j].value)
-          // console.log({review: reviews[i].content, rating: ratings[j].value , username: reviews[i].username})
           data.push({
             review: reviews[i].content,
             rating: ratings[j].value,
@@ -37,6 +44,13 @@ function BookCard({ book, user, onAddReviews, reviews }) {
     onAddReviews(book.id, content);
     setContent(""); // Reset content after submission
   };
+
+  const handleRatingsSubmit = (e) => {
+    e.preventDefault();
+    onAddRatings(book.id, rating);
+    setRating(""); // Reset content after submission
+  };
+
   return (
     <div className="grid-wrapper">
       <div className="image" onClick={openPdfInNewTab}>
@@ -84,10 +98,22 @@ function BookCard({ book, user, onAddReviews, reviews }) {
             <input
               type="text"
               value={content}
-              onChange={(e) => setContent( e.target.value,)}
+              onChange={(e) => setContent(e.target.value)}
               placeholder="Write your review..."
             />
             <button type="submit">Submit Review</button>
+          </form>
+          <form onSubmit={handleRatingsSubmit}>
+            <input
+              type="number"
+              value={rating}
+              onChange={(e) => setRating(Number(e.target.value))}
+              min="1"
+              max="5"
+              step="1"
+              placeholder="Enter your rating (1-5)"
+            />
+            <button type="submit">Submit Rating</button>
           </form>
         </div>
       </div>
