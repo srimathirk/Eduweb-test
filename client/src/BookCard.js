@@ -7,6 +7,8 @@ function BookCard({
   reviews,
   ratings,
   onAddRatings,
+  onDeleteReview,
+  onDeleteRating,
 }) {
   const { Image, Title, Author, pdf } = book;
   console.log(book);
@@ -22,22 +24,21 @@ function BookCard({
       newWindow.opener = null;
     }
   };
-  function addingReviewRating(reviews, ratings) {
-    const data = [];
-
-    for (let i = 0; i < reviews.length; i++) {
-      for (let j = 0; j < ratings.length; j++) {
-        if (reviews[i].username === ratings[j].username) {
-          data.push({
-            review: reviews[i].content,
-            rating: ratings[j].value,
-            username: reviews[i].username,
-          });
-        }
-      }
-    }
-    return data;
-  }
+  // function addingReviewRating(reviews, ratings) {
+  //   const data = [];
+  //   for (let i = 0; i < reviews.length; i++) {
+  //     for (let j = 0; j < ratings.length; j++) {
+  //       if (reviews[i].username === ratings[j].username) {
+  //         data.push({
+  //           review: reviews[i].content,
+  //           rating: ratings[j].value,
+  //           username: reviews[i].username,
+  //         });
+  //       }
+  //     }
+  //   }
+  //   return data;
+  // }
 
   const handleReviewsSubmit = (e) => {
     e.preventDefault();
@@ -50,6 +51,17 @@ function BookCard({
     onAddRatings(book.id, rating);
     setRating(""); // Reset content after submission
   };
+
+  const handleDelete = (bookId, reviewId) => {
+    onDeleteReview(bookId, reviewId);
+  };
+  console.log(book.id);
+  // console.log(reviews.id)
+  const handleDeleteRating = (bookId, ratingId) => {
+    onDeleteRating(bookId, ratingId);
+  };
+  console.log(book.id);
+
 
   return (
     <div className="grid-wrapper">
@@ -71,6 +83,9 @@ function BookCard({
             {book.reviews.map((review, index) => (
               <li key={index}>
                 User({review.username})- Review: {review.content}
+                <button onClick={() => handleDelete(book.id, review.id)}>
+                  Delete Review
+                </button>
               </li>
             ))}
           </ul>
@@ -78,10 +93,13 @@ function BookCard({
             {book.ratings.map((rating, index) => (
               <li key={index}>
                 User({rating.username})- Ratings: {rating.value}
+                <button onClick={() => handleDeleteRating(book.id, rating.id)}>
+                  Delete
+                </button>
               </li>
             ))}
           </ul>
-          <ul>
+          {/* <ul>
             {addingReviewRating(book.reviews, book.ratings).map(
               (data, index) => {
                 // console.log(data);
@@ -93,7 +111,7 @@ function BookCard({
                 );
               }
             )}
-          </ul>
+          </ul> */}
           <form onSubmit={handleReviewsSubmit}>
             <input
               type="text"

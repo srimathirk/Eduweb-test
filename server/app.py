@@ -106,16 +106,16 @@ def get_username_from_user_id(user_id):
 
 class Books(Resource):
     def get(self ):
-        # if 'user_id' not in session:
-        #     return {'message': 'Unauthorized'}, 401
+        if 'user_id' not in session:
+            return {'message': 'Unauthorized'}, 401
 
         # if session["user_id"]:
         books = Book.query.all()
         books_data = []
 
         for book in books:
-            reviews_data = [{'content': review.content, 'username': get_username_from_user_id(review.user_id)} for review in book.reviews]
-            ratings_data = [{'value': rating.value,  'username': get_username_from_user_id(rating.user_id)} for rating in book.ratings]
+            reviews_data = [{'id':review.id, 'content': review.content, 'username': get_username_from_user_id(review.user_id)} for review in book.reviews]
+            ratings_data = [{'id':rating.id, 'value': rating.value,  'username': get_username_from_user_id(rating.user_id)} for rating in book.ratings]
             books_data.append({
                 'id': book.id,
                 'Author': book.Author,
@@ -130,12 +130,12 @@ class Books(Resource):
 
 class BookById(Resource):
     def get(self,book_id):
-        # if 'user_id' not in session:
-        #     return {'message': 'Unauthorized'}, 401
+        if 'user_id' not in session:
+            return {'message': 'Unauthorized'}, 401
 
         book = Book.query.filter(Book.id == book_id).first()
-        reviews_data = [{'content': review.content, 'username': get_username_from_user_id(review.user_id)} for review in book.reviews]
-        ratings_data = [{'value': rating.value,  'username': get_username_from_user_id(rating.user_id)} for rating in book.ratings]
+        reviews_data = [{'id':review.id, 'content': review.content, 'username': get_username_from_user_id(review.user_id)} for review in book.reviews]
+        ratings_data = [{'id':rating.id, 'value': rating.value,  'username': get_username_from_user_id(rating.user_id)} for rating in book.ratings]
 
         book_data = {
             'id': book.id,
@@ -152,8 +152,8 @@ class BookById(Resource):
            
 class Reviews(Resource):
     def get(self):
-        # if 'user_id' not in session:
-        #     return {'message': 'Unauthorized'}, 401
+        if 'user_id' not in session:
+            return {'message': 'Unauthorized'}, 401
 
         reviews = []
         for review in Review.query.all():
@@ -164,8 +164,8 @@ class Reviews(Resource):
 
 class BookReviews(Resource):
     def get(self, book_id):
-        # if 'user_id' not in session:
-        #     return {'message': 'Unauthorized'}, 401
+        if 'user_id' not in session:
+            return {'message': 'Unauthorized'}, 401
 
         book = Book.query.filter(Book.id == book_id).first()
         reviews_data = [{'content': review.content, 'username': get_username_from_user_id(review.user_id)} for review in book.reviews]
@@ -175,8 +175,8 @@ class BookReviews(Resource):
 
 class AddReview(Resource):
     def post(self, book_id):
-        # if 'user_id' not in session:
-        #     return {'message': 'Unauthorized'}, 401
+        if 'user_id' not in session:
+            return {'message': 'Unauthorized'}, 401
 
         user_id = session['user_id']
         # user=User.query.filter(User.id == user_id).first()
@@ -205,8 +205,8 @@ class AddReview(Resource):
 
 class Ratings(Resource):
     def get(self):
-        # if 'user_id' not in session:
-        #     return {'message': 'Unauthorized'}, 401
+        if 'user_id' not in session:
+            return {'message': 'Unauthorized'}, 401
 
         ratings = []
         for rating in Rating.query.all():
@@ -217,8 +217,8 @@ class Ratings(Resource):
 
 class BookRatings(Resource):
     def get(self, book_id):
-        # if 'user_id' not in session:
-        #     return {'message': 'Unauthorized'}, 401
+        if 'user_id' not in session:
+            return {'message': 'Unauthorized'}, 401
 
         book = Book.query.filter(Book.id == book_id).first()
         ratings_data = [{'value': rating.value, 'username': get_username_from_user_id(rating.user_id)} for rating in book.ratings]
@@ -228,8 +228,8 @@ class BookRatings(Resource):
 class AddRating(Resource):
     def post(self,book_id):
         
-        # if 'user_id' not in session:
-        #     return {'message': 'Unauthorized'}, 401
+        if 'user_id' not in session:
+            return {'message': 'Unauthorized'}, 401
 
         user_id = session['user_id']
         value = request.get_json()['value']
@@ -252,6 +252,75 @@ class AddRating(Resource):
         }
 
         return rating_dict, 201
+
+class BookReviewById(Resource):
+    def get(self, book_id, review_id):
+        # Implement logic to get the review by book_id and review_id
+        # For example, you might use these IDs to query your database
+        
+        # Assuming you have a Review model
+        review = Review.query.filter_by(book_id=book_id, id=review_id).first()
+        
+        if review:
+            review_data = {
+                'id': review.id,
+                'content': review.content,
+                # Add more attributes as needed
+            }
+            return review_data, 200
+        else:
+            return {'message': 'Review not found'}, 404
+
+class BookRatingById(Resource):
+    def get(self, book_id, rating_id):
+        # Implement logic to get the rating by book_id and rating_id
+        # For example, you might use these IDs to query your database
+        
+        # Assuming you have a Rating model
+        rating = Rating.query.filter_by(book_id=book_id, id=rating_id).first()
+        
+        if rating:
+            rating_data = {
+                'id': rating.id,
+                'content': rating.content,
+                # Add more attributes as needed
+            }
+            return rating_data, 200
+        else:
+            return {'message': 'Rating not found'}, 404
+
+
+
+class DeleteReview(Resource):
+    def delete(self, review_id, book_id):
+        if 'user_id' not in session:
+            return {'message': 'Unauthorized'}, 401
+
+        user_id = session['user_id']
+        review = Review.query.filter_by(id = review_id, book_id=book_id, user_id=user_id).first()
+
+        if review:
+            db.session.delete(review)
+            db.session.commit()
+            return {'message': 'Review deleted successfully'}, 200
+        else:
+            return {'message': 'Review not found or unauthorized'}, 404
+
+class DeleteRating(Resource):
+    def delete(self, rating_id, book_id):
+        if 'user_id' not in session:
+            return {'message': 'Unauthorized'}, 401
+
+        user_id = session['user_id']
+        rating = Rating.query.filter_by(id = rating_id, book_id=book_id, user_id=user_id).first()
+
+        if rating:
+            db.session.delete(rating)
+            db.session.commit()
+            return {'message': 'Rating deleted successfully'}, 200
+        else:
+            return {'message': 'Rating not found or unauthorized'}, 404
+
      
 
 api.add_resource(ClearSession, '/clear', endpoint='clear')
@@ -264,10 +333,16 @@ api.add_resource(Books, '/books')
 api.add_resource(BookById,'/books/<int:book_id>')
 api.add_resource(Reviews, '/books/reviews')
 api.add_resource(BookReviews, '/books/<int:book_id>/reviews')
+api.add_resource(BookReviewById, '/books/<int:book_id>/reviews/<int:review_id>')
+api.add_resource(BookRatingById, '/books/<int:book_id>/ratings/<int:rating_id>')
 api.add_resource(AddReview,'/books/<int:book_id>/add_review')
 api.add_resource(Ratings, '/books/ratings')
 api.add_resource(BookRatings, '/books/<int:book_id>/ratings')
 api.add_resource(AddRating,'/books/<int:book_id>/add_rating')
+api.add_resource(DeleteReview, '/books/<int:book_id>/reviews/<int:review_id>', endpoint='delete_review')
+api.add_resource(DeleteRating, '/books/<int:book_id>/ratings/<int:rating_id>', endpoint='delete_rating')
+
+
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

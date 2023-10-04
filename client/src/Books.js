@@ -23,8 +23,8 @@ function Books({ user }) {
   }, []);
 
   console.log(user);
-  console.log(books)
-  console.log(reviews)
+  console.log(books);
+  console.log(reviews);
 
   function handleAddReviews(newReview) {
     setReviews([...reviews, newReview]);
@@ -81,7 +81,14 @@ function Books({ user }) {
       },
       body: JSON.stringify({ book_id: bookId, value }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        console.log("Response:", response);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+
       .then((newRatings) => {
         console.log("Ratings added successfully:", newRatings);
 
@@ -91,6 +98,88 @@ function Books({ user }) {
         console.error("Error adding ratings:", error);
       });
   };
+
+  const handleDeleteReview = (bookId, reviewId) => {
+    console.log(bookId);
+    console.log(reviewId);
+    fetch(`/books/${bookId}/reviews/${reviewId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        // if (!response.ok) {
+        //   throw new Error('Network response was not ok');
+        // }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Review deleted successfully:", data);
+        // Optionally, update component's state to reflect the deletion
+
+        // Update the list of reviews after deletion
+        const updatedReviews = reviews.filter(
+          (review) => review.id !== reviewId
+        );
+        setReviews(updatedReviews);
+
+        // Update the list of books after deletion
+        const updatedBooks = books.map((book) => {
+          if (book.id === bookId) {
+            // Filter out the deleted review from the book's reviews
+            book.reviews = book.reviews.filter(
+              (review) => review.id !== reviewId
+            );
+          }
+          return book;
+        });
+
+        setBooks(updatedBooks);
+      })
+      .catch((error) => {
+        console.error("Error deleting review:", error);
+      });
+  };
+
+
+  const handleDeleteRating = (bookId, ratingId) => {
+    console.log(bookId);
+    console.log(ratingId);
+    fetch(`/books/${bookId}/ratings/${ratingId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        // if (!response.ok) {
+        //   throw new Error('Network response was not ok');
+        // }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Rating deleted successfully:", data);
+        // Optionally, update component's state to reflect the deletion
+
+        // Update the list of ratings after deletion
+        const updatedRatings = ratings.filter(
+          (rating) => rating.id !== ratingId
+        );
+        setRatings(updatedRatings);
+
+        // Update the list of books after deletion
+        const updatedBooks = books.map((book) => {
+          if (book.id === bookId) {
+            // Filter out the deleted rating from the book's ratings
+            book.ratings = book.ratings.filter(
+              (rating) => rating.id !== ratingId
+            );
+          }
+          return book;
+        });
+
+        setBooks(updatedBooks);
+      })
+      .catch((error) => {
+        console.error("Error deleting rating:", error);
+      });
+  };
+
 
   return (
     <div>
@@ -102,10 +191,12 @@ function Books({ user }) {
               book={book}
               onAddReviews={handleReviewsSubmit}
               onAddRatings={handleRatingsSubmit}
+              onDeleteReview={handleDeleteReview}
+              onDeleteRating={handleDeleteRating}
               user={user}
               reviews={reviews.filter((review) => review.book_id === book.id)}
               ratings={ratings.filter((rating) => rating.book_id === book.id)}
-/>
+            />
           </li>
         ))}
       </ul>
