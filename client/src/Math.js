@@ -1,14 +1,26 @@
-import React from 'react';
+// Inside MathQuiz.js
 
-function Math({user}) {
-  // console.log(user)
+import React, { useState } from 'react';
+import AdditionQuiz from './AdditionQuiz';
+
+const MathQuiz = () => {
+  const [selectedQuiz, setSelectedQuiz] = useState(null);
+
+  const handleQuizSelection = (quizType) => {
+    setSelectedQuiz(quizType);
+  };
 
   return (
     <div>
-      <h2>Math Component</h2>
-      {/* Add content for Math here */}
+      <h1>Math Quiz</h1>
+      <div>
+        <button onClick={() => handleQuizSelection('addition')}>Addition Quiz</button>
+        
+      </div>
+      {selectedQuiz === 'addition' && <AdditionQuiz operator="+" />}
+      
     </div>
   );
-}
+};
 
-export default Math;
+export default MathQuiz;
