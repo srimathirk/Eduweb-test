@@ -83,9 +83,11 @@ function BookCard({
             {book.reviews.map((review, index) => (
               <li key={index}>
                 User({review.username})- Review: {review.content}
+                {user.username === review.username && (
                 <button onClick={() => handleDelete(book.id, review.id)}>
                   Delete Review
                 </button>
+                )}
               </li>
             ))}
           </ul>
@@ -93,9 +95,11 @@ function BookCard({
             {book.ratings.map((rating, index) => (
               <li key={index}>
                 User({rating.username})- Ratings: {rating.value}
+                {user.username === rating.username && (
                 <button onClick={() => handleDeleteRating(book.id, rating.id)}>
                   Delete
                 </button>
+                )}
               </li>
             ))}
           </ul>
