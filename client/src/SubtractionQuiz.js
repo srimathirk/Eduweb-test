@@ -8,8 +8,8 @@ const SubtractionQuiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [userAnswers, setUserAnswers] = useState([]);
   const [score, setScore] = useState(0);
-  const [operator, setOperator] = useState('-'); // Added operator state
-  
+//   const [operator, setOperator] = useState('-'); // Subtraction operator state
+  const operator = '-';
   const generateRandomNumbers = () => { //Generating random numbers for quiz
     
     setNum1(Math.floor(Math.random() * 11));
