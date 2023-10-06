@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const QuizReport = ({ userAnswers, score, operator }) => {
   return (
@@ -9,8 +9,12 @@ const QuizReport = ({ userAnswers, score, operator }) => {
         <ul>
           {userAnswers.map((answer, index) => (
             <li key={index}>
-              Question {index + 1}: {answer.num1} {operator} {answer.num2} = {answer.userAnswer} (
-              {answer.userAnswer === answer.correctAnswer ? 'Correct' : 'Incorrect'})
+              Question {index + 1}: {answer.num1} {operator} {answer.num2} ={" "}
+              {answer.userAnswer} (
+              {answer.userAnswer === answer.correctAnswer
+                ? "Correct"
+                : `Incorrect. CorrectAns: ${answer.correctAnswer}`}
+              )
             </li>
           ))}
         </ul>

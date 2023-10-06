@@ -10,11 +10,20 @@ const SubtractionQuiz = () => {
   const [score, setScore] = useState(0);
 //   const [operator, setOperator] = useState('-'); // Subtraction operator state
   const operator = '-';
-  const generateRandomNumbers = () => { //Generating random numbers for quiz
-    
-    setNum1(Math.floor(Math.random() * 11));
-    setNum2(Math.floor(Math.random() * num1));
+  const generateRandomNumbers = () => {
+    let newNum1 = Math.floor(Math.random() * 11);
+    let newNum2 = Math.floor(Math.random() * 11);
+  
+    // Check if num1 is greater than or equal to num2
+    while (newNum1 <= newNum2) {
+      newNum1 = Math.floor(Math.random() * 11);
+      newNum2 = Math.floor(Math.random() * 11);
+    }
+  
+    setNum1(newNum1);
+    setNum2(newNum2);
   };
+  
 
   const handleAnswerSubmit = (answer) => { //handle answer submit
     const userAnswer = parseInt(answer, 10);
