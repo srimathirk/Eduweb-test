@@ -11,9 +11,14 @@ const QuizReport = ({ userAnswers, score, operator }) => {
             <li key={index}>
               Question {index + 1}: {answer.num1} {operator} {answer.num2} ={" "}
               {answer.userAnswer} (
-              {answer.userAnswer === answer.correctAnswer
-                ? "Correct"
-                : `Incorrect. CorrectAns: ${answer.correctAnswer}`}
+              {Math.round(answer.userAnswer * 10) / 10 ===
+              Math.round(answer.correctAnswer * 10) / 10
+                ? `Correct (Answer: ${
+                    Math.round(answer.correctAnswer * 10) / 10
+                  })`
+                : `Incorrect (Answer: ${
+                    Math.round(answer.correctAnswer * 10) / 10
+                  })`}
               )
             </li>
           ))}
