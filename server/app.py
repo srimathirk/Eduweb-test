@@ -118,9 +118,9 @@ class Books(Resource):
             ratings_data = [{'id':rating.id, 'value': rating.value,  'username': get_username_from_user_id(rating.user_id)} for rating in book.ratings]
             books_data.append({
                 'id': book.id,
-                'Author': book.Author,
-                'Title': book.Title,
-                'Image': book.Image,
+                'author': book.author,
+                'title': book.title,
+                'image': book.image,
                 'pdf': book.pdf,
                 'views': book.views,
                 'reviews': reviews_data,
@@ -138,9 +138,9 @@ class Books(Resource):
             return jsonify({'message': 'Bad Request'}), 400
 
         new_book = Book(
-            Author=data['Author'],
-            Title=data['Title'],
-            Image=data['Image'],
+            author=data['author'],
+            title=data['title'],
+            image=data['image'],
             pdf=data['pdf']
             
         )
@@ -150,9 +150,9 @@ class Books(Resource):
 
         return {
             'id': new_book.id,
-            'Author': new_book.Author,
-            'Title': new_book.Title,
-            'Image': new_book.Image,
+            'author': new_book.author,
+            'title': new_book.title,
+            'image': new_book.image,
             'pdf': new_book.pdf,
             'views': new_book.views,
             'reviews': [],  # Assuming no reviews yet
@@ -171,9 +171,9 @@ class BookById(Resource):
 
         book_data = {
             'id': book.id,
-            'Author': book.Author,
-            'Title': book.Title,
-            'Image': book.Image,
+            'author': book.author,
+            'title': book.title,
+            'image': book.image,
             'pdf': book.pdf,
             'views':book.views,
             'reviews': reviews_data,
@@ -202,9 +202,9 @@ class BookById(Resource):
         db.session.commit()
         book_data = {
             'id': book.id,
-            'Author': book.Author,
-            'Title': book.Title,
-            'Image': book.Image,
+            'author': book.author,
+            'title': book.title,
+            'image': book.image,
             'pdf': book.pdf,
             'views':book.views,
             }
@@ -213,9 +213,9 @@ class BookById(Resource):
         #     db.session.commit()  # Save the updated views to the database
         #     return {
         #         'id': book.id,
-        #         'Author': book.author,
-        #         'Title': book.title,
-        #         'Image': book.image,
+        #         'author': book.author,
+        #         'title': book.title,
+        #         'image': book.image,
         #         'pdf': book.pdf,
         #         'views': book.views
         #     }, 200

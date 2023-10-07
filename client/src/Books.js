@@ -197,8 +197,8 @@ function Books({ user }) {
   };
 
   const filteredBooks = books.filter((book) => {
-    const title = book.Title.toLowerCase().includes(searchTerm.toLowerCase());
-    const author = book.Author.toLowerCase().includes(searchTerm.toLowerCase());
+    const title = book.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const author = book.author.toLowerCase().includes(searchTerm.toLowerCase());
     return title || author;
 
   });
@@ -225,7 +225,7 @@ function Books({ user }) {
         <input
           type="text"
           id="search"
-          placeholder="Type Title/Author to search..."
+          placeholder="Type title/author to search..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

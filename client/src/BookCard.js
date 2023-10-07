@@ -11,7 +11,7 @@ function BookCard({
   onDeleteReview,
   onDeleteRating,
 }) {
-  const { Image, Title, Author, pdf, views } = book;
+  const { image, title, author, pdf, views } = book;
   console.log(book);
   const [content, setContent] = useState("");
   const [rating, setRating] = useState("");
@@ -84,7 +84,7 @@ function BookCard({
   return (
     <div className="grid-wrapper">
       <div className="image" >
-        <img src={Image} alt={Title} />
+        <img src={image} alt={title} />
       </div>
       <div className="pdf" onClick={handleUpdateClick} >
         <button onClick={openPdfInNewTab}> Click me to view book  👀{views} </button>
@@ -94,14 +94,14 @@ function BookCard({
           </button> */}
       <div className="content">
         <div className="Title" style={{ color: "darkred", fontWeight: "bold" }}>
-          Title: {Title}
+          title: {title}
         </div>
         <div>
           <div
             className="author"
             style={{ color: "darkblue", fontWeight: "bold" }}
           >
-            Author: {Author}
+            author: {author}
           </div>
           <ul>
             {book.reviews.map((review, index) => (

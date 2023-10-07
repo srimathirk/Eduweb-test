@@ -47,9 +47,9 @@ class Book(db.Model, SerializerMixin):
     __tablename__ = 'books'
 
     id = db.Column(db.Integer, primary_key=True)
-    Author = db.Column(db.String)
-    Title = db.Column(db.String, nullable=False)
-    Image = db.Column(db.String)
+    author = db.Column(db.String) 
+    title = db.Column(db.String, nullable=False)
+    image = db.Column(db.String)
     pdf =  db.Column(db.String)
     views = db.Column(db.Integer, default=0)
     users = db.relationship('User', secondary=user_books, overlaps="books")

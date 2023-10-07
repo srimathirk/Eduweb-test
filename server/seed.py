@@ -34,79 +34,79 @@ with app.app_context():
 
     books_data = [
         {
-            "Author":"Danielle Bruckert",
-            "Title": "Always Be Nice",
-            "Image": "./photos/Always-Be-Nice.png", 
+            "author":"Danielle Bruckert",
+            "title": "Always Be Nice",
+            "image": "./photos/Always-Be-Nice.png", 
             "pdf": "./pdf/Always-Be-Nice.pdf",
             "views": 5
 
         },
         {
-            "Author":"Priyanka",
-            "Title":"Colours",
-            "Image":"./photos/colours-bear.png",
+            "author":"Priyanka",
+            "title":"Colours",
+            "image":"./photos/colours-bear.png",
             "pdf":"./pdf/colours-bear.pdf",
             "views": 52
 
         },
         {
-            "Author":"Angeliki Vorepoulou",
-            "Title":"The Big Red Balloon",
-            "Image":"./photos/The-Big-Red-Balloon.png",
+            "author":"Angeliki Vorepoulou",
+            "title":"The Big Red Balloon",
+            "image":"./photos/The-Big-Red-Balloon.png",
             "pdf":"./pdf/The-Big-Red-Balloon.pdf",
             "views": 94
         },
         {
-            "Author":"Ivan Parvov",
-            "Title":"The Green Chicken",
-            "Image":"./photos/The-Green-Chicken.png",
+            "author":"Ivan Parvov",
+            "title":"The Green Chicken",
+            "image":"./photos/The-Green-Chicken.png",
             "pdf":"./pdf/The-Green-Chicken.pdf",
             "views": 54
         },
         {
-            "Author":"Computer mice",
-            "Title":"The Good Fox",
-            "Image":"./photos/The-Good-Fox.png",
+            "author":"Computer mice",
+            "title":"The Good Fox",
+            "image":"./photos/The-Good-Fox.png",
             "pdf":"./pdf/The-Good-Fox.pdf",
             "views": 21
 
         },
         {
-            "Author":"Allyn Fischer",
-            "Title":"How Does A Pumpkin Grow",
-            "Image":"./photos/How-Does-A-Pumpkin-Grow.png",
+            "author":"Allyn Fischer",
+            "title":"How Does A Pumpkin Grow",
+            "image":"./photos/How-Does-A-Pumpkin-Grow.png",
             "pdf":"./pdf/How-Does-A-Pumpkin-Grow.pdf",
             "views": 10
 
         },
         {
-            "Author":"Bel Richardson",
-            "Title":"Kittens!",
-            "Image":"./photos/Kittens.png",
+            "author":"Bel Richardson",
+            "title":"Kittens!",
+            "image":"./photos/Kittens.png",
             "pdf":"./pdf/Kittens.pdf",
             "views": 87
 
         },
         {
-            "Author":"Kahani Goyal",
-            "Title":"The Cute And Cuddly Koalas",
-            "Image":"./photos/The-Cute-And-Cuddly-Koalas.png",
+            "author":"Kahani Goyal",
+            "title":"The Cute And Cuddly Koalas",
+            "image":"./photos/The-Cute-And-Cuddly-Koalas.png",
             "pdf":"./pdf/The-Cute-And-Cuddly-Koalas.pdf",
             "views": 47
 
         },
         {
-            "Author":"Unknown",
-            "Title":"12 Days Of Christmas",
-            "Image":"./photos/12-Days-Of-Christmas.png",
+            "author":"Unknown",
+            "title":"12 Days Of Christmas",
+            "image":"./photos/12-Days-Of-Christmas.png",
             "pdf":"./pdf/12-Days-Of-Christmas.pdf",
             "views": 57
 
         },
         {
-            "Author":"Rebecca Bielawski",
-            "Title":"Alphabeti Cool",
-            "Image":"./photos/Alphabeti-Cool.png",
+            "author":"Rebecca Bielawski",
+            "title":"Alphabeti Cool",
+            "image":"./photos/Alphabeti-Cool.png",
             "pdf":"./pdf/Alphabeti-Cool.pdf",
             "views": 50
 
