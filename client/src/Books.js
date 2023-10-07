@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import BookCard from "./BookCard";
 import NewBookForm from "./NewBookForm";
+
 function Books({ user }) {
   const [books, setBooks] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [ratings, setRatings] = useState([]);
   const [showForm, setShowForm] = useState(false);
-
+  const [searchTerm, setSearchTerm] = useState("");
   // console.log(user)
   useEffect(() => {
     fetch(`/books`)
@@ -193,6 +194,12 @@ function Books({ user }) {
     setShowForm(!showForm);
   };
 
+  const filteredBooks = books.filter((book) => {
+    const title = book.Title.toLowerCase().includes(searchTerm.toLowerCase());
+    const author = book.Author.toLowerCase().includes(searchTerm.toLowerCase());
+    return title || author;
+
+  });
 
   return (
     <div>
@@ -200,8 +207,19 @@ function Books({ user }) {
       <button onClick={toggleForm}>Add New Book</button>
     {/* toggling new BookForm to show */}
       {showForm && <NewBookForm onAddBook = {handleAddBook} />}
+      
+      <div className="searchbar">
+        <label htmlFor="search">Search Books:</label>
+        <input
+          type="text"
+          id="search"
+          placeholder="Type a name to search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
       <ul>
-        {books.map((book) => (
+        {filteredBooks.map((book) => (
           <li key={book.id}>
             
             <BookCard
