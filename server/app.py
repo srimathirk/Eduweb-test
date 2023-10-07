@@ -122,6 +122,7 @@ class Books(Resource):
                 'Title': book.Title,
                 'Image': book.Image,
                 'pdf': book.pdf,
+                'views': book.views,
                 'reviews': reviews_data,
                 'ratings': ratings_data
             })
@@ -141,6 +142,7 @@ class Books(Resource):
             Title=data['Title'],
             Image=data['Image'],
             pdf=data['pdf']
+            
         )
 
         db.session.add(new_book)
@@ -152,6 +154,7 @@ class Books(Resource):
             'Title': new_book.Title,
             'Image': new_book.Image,
             'pdf': new_book.pdf,
+            'views': new_book.views,
             'reviews': [],  # Assuming no reviews yet
             'ratings': []  # Assuming no ratings yet
         }, 201
@@ -172,6 +175,7 @@ class BookById(Resource):
             'Title': book.Title,
             'Image': book.Image,
             'pdf': book.pdf,
+            'views':book.views,
             'reviews': reviews_data,
             'ratings': ratings_data
         }

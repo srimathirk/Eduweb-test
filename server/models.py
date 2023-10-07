@@ -51,10 +51,11 @@ class Book(db.Model, SerializerMixin):
     Title = db.Column(db.String, nullable=False)
     Image = db.Column(db.String)
     pdf =  db.Column(db.String)
+    views = db.Column(db.Integer, default=0)
     users = db.relationship('User', secondary=user_books, overlaps="books")
     reviews = db.relationship('Review', backref='books')
     ratings = db.relationship('Rating', backref='books')
-  
+    
     serialize_rules = ('-user_books','-ratings','-reviews')
 
 class Review(db.Model):
