@@ -6,11 +6,12 @@ function BookCard({
   onAddReviews,
   reviews,
   ratings,
+  onUpdate,
   onAddRatings,
   onDeleteReview,
   onDeleteRating,
 }) {
-  const { Image, Title, Author, pdf } = book;
+  const { Image, Title, Author, pdf, views } = book;
   console.log(book);
   const [content, setContent] = useState("");
   const [rating, setRating] = useState("");
@@ -62,12 +63,35 @@ function BookCard({
   };
   console.log(book.id);
 
+  
+    function handleUpdateClick(){
+    // Sending a POST request to update the view count
+    fetch(`/books/${book.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ views: views + 1 }),
+    })
+    .then(response => {
+             response.json(); // Assuming the server sends back a JSON response
+    })
+    .then(() => onUpdate(book.id));
+  }
+  
+  
 
   return (
     <div className="grid-wrapper">
-      <div className="image" onClick={openPdfInNewTab}>
+      <div className="image" >
         <img src={Image} alt={Title} />
       </div>
+      <div className="pdf" onClick={handleUpdateClick} >
+        <button onClick={openPdfInNewTab}> Click me to view book  👀{views} </button>
+      </div>
+      {/* <button className="View-btn" onClick={handleUpdateClick}>
+            👀{views}
+          </button> */}
       <div className="content">
         <div className="Title" style={{ color: "darkred", fontWeight: "bold" }}>
           Title: {Title}

@@ -189,6 +189,8 @@ function Books({ user }) {
       });
   };
 
+  
+
   // Function to toggle the form's visibility
   const toggleForm = () => {
     setShowForm(!showForm);
@@ -200,6 +202,16 @@ function Books({ user }) {
     return title || author;
 
   });
+
+  function handleUpdateViews(bookId) {
+    const updatedBookCard = books.map((book) => {
+      if (book.id === bookId) {
+        return { ...book, views: book.views + 1 };
+      }
+      return book;
+    });
+    setBooks(updatedBookCard);
+  }
 
   return (
     <div>
@@ -213,7 +225,7 @@ function Books({ user }) {
         <input
           type="text"
           id="search"
-          placeholder="Type a name to search..."
+          placeholder="Type Title/Author to search..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -228,6 +240,7 @@ function Books({ user }) {
               onAddRatings={handleRatingsSubmit}
               onDeleteReview={handleDeleteReview}
               onDeleteRating={handleDeleteRating}
+              onUpdate={handleUpdateViews}
               user={user}
               reviews={reviews.filter((review) => review.book_id === book.id)}
               ratings={ratings.filter((rating) => rating.book_id === book.id)}

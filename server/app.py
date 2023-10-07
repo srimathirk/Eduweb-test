@@ -182,7 +182,48 @@ class BookById(Resource):
 
         return book_data, 200
 
-           
+    def patch(self,book_id):
+
+        if 'user_id' not in session:
+            return {'message': 'Unauthorized'}, 401
+
+        book = Book.query.filter(Book.id == book_id).first()
+        if not book:
+            return {'message': 'Book not found'}, 404
+
+        # Check if 'views' field is present in the request JSON
+        if 'views' not in request.get_json():
+            return {'message': 'Views field is required'}, 400
+
+        # Update the 'views' attribute
+        new_views = request.get_json()["views"]
+        book.views = new_views
+        db.session.add(book)
+        db.session.commit()
+        book_data = {
+            'id': book.id,
+            'Author': book.Author,
+            'Title': book.Title,
+            'Image': book.Image,
+            'pdf': book.pdf,
+            'views':book.views,
+            }
+        return book_data,200
+        # try:
+        #     db.session.commit()  # Save the updated views to the database
+        #     return {
+        #         'id': book.id,
+        #         'Author': book.author,
+        #         'Title': book.title,
+        #         'Image': book.image,
+        #         'pdf': book.pdf,
+        #         'views': book.views
+        #     }, 200
+        # except Exception as e:
+        #     # Handle database-related errors
+        #     db.session.rollback()
+        #     return {'message': f'Error updating view count: {str(e)}'}, 500
+            
 class Reviews(Resource):
     def get(self):
         if 'user_id' not in session:
