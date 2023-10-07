@@ -20,15 +20,15 @@ function Home({ user }) {
           <li>
             <Link to="/math">Math</Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/logic">Logic</Link>
-          </li>
+          </li> */}
         </ul>
       </nav>
       <Switch>
         <Route path="/books"> <Books user={user}/></Route> 
         <Route path="/math" component={Math} />
-        <Route path="/logic" component={Logic} />
+        {/* <Route path="/logic" component={Logic} /> */}
       </Switch>
     </div>
   );

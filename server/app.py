@@ -128,6 +128,35 @@ class Books(Resource):
 
         return (books_data),200
 
+    def post(self):
+        if 'user_id' not in session:
+            return jsonify({'message': 'Unauthorized'}), 401
+
+        data = request.get_json()
+        if not data:
+            return jsonify({'message': 'Bad Request'}), 400
+
+        new_book = Book(
+            Author=data['Author'],
+            Title=data['Title'],
+            Image=data['Image'],
+            pdf=data['pdf']
+        )
+
+        db.session.add(new_book)
+        db.session.commit()
+
+        return {
+            'id': new_book.id,
+            'Author': new_book.Author,
+            'Title': new_book.Title,
+            'Image': new_book.Image,
+            'pdf': new_book.pdf,
+            'reviews': [],  # Assuming no reviews yet
+            'ratings': []  # Assuming no ratings yet
+        }, 201
+
+
 class BookById(Resource):
     def get(self,book_id):
         if 'user_id' not in session:

@@ -6,7 +6,7 @@ import NavBar from "./NavBar";
 import Home from "./Home";
 import Books from "./Books";
 import Math from "./Math";
-import Logic from "./Logic";
+// import Logic from "./Logic";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -45,9 +45,9 @@ function App() {
             <Route path="/math">
               <Math user={user}/>
             </Route>
-            <Route path="/logic">
+            {/* <Route path="/logic">
               <Logic />
-            </Route>
+            </Route> */}
           </Switch>
         ) : (
           <Switch>

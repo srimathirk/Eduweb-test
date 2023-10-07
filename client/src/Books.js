@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import BookCard from "./BookCard";
+import NewBookForm from "./NewBookForm";
 function Books({ user }) {
   const [books, setBooks] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [ratings, setRatings] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+
   // console.log(user)
   useEffect(() => {
     fetch(`/books`)
@@ -21,6 +24,11 @@ function Books({ user }) {
         console.error("Error fetching reviews:", error);
       });
   }, []);
+
+  const handleAddBook = (newBook) => {
+    const updatedBooks = [...books, newBook];
+    setBooks(updatedBooks);
+  }
 
   console.log(user);
   console.log(books);
@@ -180,13 +188,22 @@ function Books({ user }) {
       });
   };
 
+  // Function to toggle the form's visibility
+  const toggleForm = () => {
+    setShowForm(!showForm);
+  };
+
 
   return (
     <div>
       <h1>Books</h1>
+      <button onClick={toggleForm}>Add New Book</button>
+    {/* toggling new BookForm to show */}
+      {showForm && <NewBookForm onAddBook = {handleAddBook} />}
       <ul>
         {books.map((book) => (
           <li key={book.id}>
+            
             <BookCard
               book={book}
               onAddReviews={handleReviewsSubmit}

@@ -11,7 +11,7 @@ const DivisionQuiz = () => {
   //   const [operator, setOperator] = useState('+'); // Added operator state
 
   const operator = "/";
-  
+
   const generateRandomNumbers = () => {
     let newNum1 = Math.floor(Math.random() * 11);
     let newNum2 = Math.floor(Math.random() * 11);
@@ -41,7 +41,6 @@ const DivisionQuiz = () => {
     }
 
     setUserAnswers([...userAnswers, { num1, num2, userAnswer, correctAnswer }]);
-    
 
     //setting only for 10 queestions
     if (currentQuestion < 10) {
@@ -79,7 +78,6 @@ const DivisionQuiz = () => {
             userAnswers={userAnswers}
             score={score}
             operator={operator}
-            
           />
           <button onClick={handleRestartQuiz}>Restart Quiz</button>
         </div>
