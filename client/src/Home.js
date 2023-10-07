@@ -2,10 +2,10 @@ import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import Books from './Books'; // Import your Books, Math, and Logic components
 import Math from './Math';
-import Logic from './Logic';
+// import Logic from './Logic';
 
 
-function Home({ user }) {
+function Home({ user, isAdmin }) {
   console.log(user)
   if (user){
   return (
@@ -26,7 +26,7 @@ function Home({ user }) {
         </ul>
       </nav>
       <Switch>
-        <Route path="/books"> <Books user={user}/></Route> 
+        <Route path="/books"> <Books user={user} isAdmin={isAdmin}/></Route> 
         <Route path="/math" component={Math} />
         {/* <Route path="/logic" component={Logic} /> */}
       </Switch>

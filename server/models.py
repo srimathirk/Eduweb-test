@@ -15,6 +15,7 @@ class User(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True)
     _password_hash = db.Column(db.String)
+    is_admin = db.Column(db.Boolean, default=False)
     
     serialize_rules = ('-_password_hash','-books')
 

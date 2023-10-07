@@ -1,22 +1,25 @@
 import { useState } from "react";
 
-function NewBookForm({ onAddBook }) {
-  const [Author, setAuthor] = useState("");
-  const [Title, setTitle] = useState("");
-  const [Image, setImage] = useState("");
+function NewBookForm({ onAddBook, isAdmin }) {
+  const [author, setauthor] = useState("");
+  const [title, settitle] = useState("");
+  const [image, setimage] = useState("");
   const [pdf, setpdf] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
+    if(!isAdmin){
+      alert("You do not have permission to add book ")
+    }
     fetch("/books", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        Author: Author,
-        Title: Title,
-        Image: Image,
+        author: author,
+        title: title,
+        image: image,
         pdf: pdf,
       }),
     })
@@ -24,9 +27,9 @@ function NewBookForm({ onAddBook }) {
       .then((newBook) => {
         onAddBook(newBook);
         // Reset form fields to their initial values
-        setAuthor("");
-        setTitle("");
-        setImage("");
+        setauthor("");
+        settitle("");
+        setimage("");
         setpdf("");
       });
   }
@@ -37,24 +40,24 @@ function NewBookForm({ onAddBook }) {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          name="Author"
-          placeholder="Book Author"
-          value={Author}
-          onChange={(e) => setAuthor(e.target.value)}
+          name="author"
+          placeholder="Book author"
+          value={author}
+          onChange={(e) => setauthor(e.target.value)}
         />
         <input
           type="text"
-          name="Title"
-          placeholder="Book Title"
-          value={Title}
-          onChange={(e) => setTitle(e.target.value)}
+          name="title"
+          placeholder="Book title"
+          value={title}
+          onChange={(e) => settitle(e.target.value)}
         />
         <input
           type="text"
-          name="Image"
-          placeholder="Image URL"
-          value={Image}
-          onChange={(e) => setImage(e.target.value)}
+          name="image"
+          placeholder="image URL"
+          value={image}
+          onChange={(e) => setimage(e.target.value)}
         />
         <input
           type="text"

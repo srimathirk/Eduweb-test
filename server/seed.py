@@ -13,7 +13,7 @@ with app.app_context():
     users = []
     usernames = []
 
-
+    is_admin = True
     for _ in range(10):
         username = faker.first_name()
         while username in usernames:
@@ -24,6 +24,11 @@ with app.app_context():
         )
 
         user.password_hash = user.username + 'password' #We calling password_hash setter method here
+        # Set admin status for the first user
+        user.is_admin = is_admin
+        is_admin = False  # Set is_admin to False after the first user
+
+        
         db.session.add(user)
         db.session.commit()
 

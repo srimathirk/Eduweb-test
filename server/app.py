@@ -19,17 +19,24 @@ class ClearSession(Resource):
 class CheckSession(Resource):
     def get(self):
         user_id = session.get('user_id')
+        is_admin = session.get('is_admin')
         print(f"User ID from session: {user_id}")
         if user_id:
             user = User.query.filter(User.id == user_id).first()
             print(f"User from database: {user}")
-            if user:           
+            if user: 
+                user_data = user.to_dict()
+                user_data['is_admin'] = is_admin
+          
                 return user.to_dict(), 200
         else:
             session.pop('user_id', None)
             return {}, 204
 
-
+class CheckAdmin(Resource):
+    def get(self):
+        is_admin = session.get('is_admin')
+        return {'is_admin': is_admin}, 200
 
 class Signup(Resource):
     
@@ -68,8 +75,9 @@ class Login(Resource):
         # users pwd is set by calling user.pawd = "new_pwd"
         # instead of pwd = user.pwd , here we authenticate by using bcrypt checking pwd = stored pwd hash
         if user and user.authenticate(password):
-        
+            
             session['user_id'] = user.id
+            session['is_admin'] = user.is_admin
             return user.to_dict(), 200
 
         return {}, 401
@@ -131,11 +139,20 @@ class Books(Resource):
 
     def post(self):
         if 'user_id' not in session:
-            return jsonify({'message': 'Unauthorized'}), 401
+            return ({'message': 'Unauthorized'}), 401
+
+        user_id = session['user_id']
+        user = User.query.filter(User.id == user_id).first()
+
+        if not user:
+            return ({'message': 'Unauthorized'}), 401
+
+        if not user.is_admin:
+            return ({'message': 'Unauthorized'}), 403
 
         data = request.get_json()
         if not data:
-            return jsonify({'message': 'Bad Request'}), 400
+            return ({'message': 'Bad Request'}), 400
 
         new_book = Book(
             author=data['author'],
@@ -399,6 +416,7 @@ class DeleteRating(Resource):
 
 api.add_resource(ClearSession, '/clear', endpoint='clear')
 api.add_resource(CheckSession, '/check_session', endpoint='checksession')
+api.add_resource(CheckAdmin, '/check_admin')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')

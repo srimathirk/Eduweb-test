@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import BookCard from "./BookCard";
 import NewBookForm from "./NewBookForm";
 
-function Books({ user }) {
+function Books({ user , isAdmin}) {
   const [books, setBooks] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [ratings, setRatings] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  
   // console.log(user)
   useEffect(() => {
     fetch(`/books`)
@@ -27,9 +28,13 @@ function Books({ user }) {
   }, []);
 
   const handleAddBook = (newBook) => {
+    if (isAdmin){
     const updatedBooks = [...books, newBook];
     setBooks(updatedBooks);
+  } else {
+    alert(" only admin can add books");
   }
+}
 
   console.log(user);
   console.log(books);
@@ -216,10 +221,11 @@ function Books({ user }) {
   return (
     <div>
       <h1>Books</h1>
+      <div>
       <button onClick={toggleForm}>Add New Book</button>
     {/* toggling new BookForm to show */}
-      {showForm && <NewBookForm onAddBook = {handleAddBook} />}
-      
+      {showForm && <NewBookForm onAddBook = {handleAddBook} isAdmin={isAdmin}/>}
+      </div>
       <div className="searchbar">
         <label htmlFor="search">Search Books:</label>
         <input
